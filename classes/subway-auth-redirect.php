@@ -6,9 +6,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
+ *
  * PHP Version 5.4
- * 
+ *
  * @category Subway\Auth\Redirect
  * @package  Subway
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
@@ -31,7 +31,7 @@ if (! defined('ABSPATH') ) {
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     github.com/codehaiku/subway The Plugin Repository
- * @since    1.0  
+ * @since    1.0
  */
 final class AuthRedirect
 {
@@ -41,7 +41,7 @@ final class AuthRedirect
      *
      * @return void
      */
-    public static function handleAuthentication() 
+    public static function handleAuthentication()
     {
 
         // Set the header type to json.
@@ -56,7 +56,7 @@ final class AuthRedirect
             $response['type'] = 'error';
 
             $response['message'] = esc_html__(
-                'Username and Password cannot be empty.', 
+                'Username and Password cannot be empty.',
                 'subway'
             );
 
@@ -77,17 +77,18 @@ final class AuthRedirect
                 $response['type'] = 'success';
 
                 $response['message'] = esc_html__(
-                    'You have successfully logged-in. 
-                	Redirecting you in few seconds...'
+                    'You have successfully logged-in.
+                    Redirecting you in few seconds...',
+                    'subway'
                 );
 
             }
         }
-        
+
         $subway_redirect_url = AuthRedirect::getLoginRedirectUrl('');
 
         $response['redirect_url'] = apply_filters(
-            'subway_login_redirect', 
+            'subway_login_redirect',
             $subway_redirect_url
         );
 
@@ -101,10 +102,10 @@ final class AuthRedirect
      * Returns the filtered redirect url for the current user.
      *
      * @param string $redirect_to The default redirect callback argument.
-     * 
+     *
      * @return string               The final redirect url.
      */
-    public static function getLoginRedirectUrl( $redirect_to ) 
+    public static function getLoginRedirectUrl( $redirect_to )
     {
 
         $subway_redirect_type = get_option('subway_redirect_type');
