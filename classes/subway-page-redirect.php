@@ -72,14 +72,21 @@ final class PageRedirect
 
         // Check if buddypress activate page.
         if (function_exists('bp_is_activation_page') ) {
-            if (bp_is_activation_page() ) {
+            if ( bp_is_activation_page() && apply_filters( 'subway_activation_page_access', true ) ) {
                 return;
             }
         }
 
         // Check if buddypress registration page.
         if (function_exists('bp_is_register_page') ) {
-            if (bp_is_register_page() ) {
+            if ( bp_is_register_page() && apply_filters( 'subway_registration_page_access', true ) ) {
+                return;
+            }
+        }
+
+        // Check if woocommerce lost-password page.
+        if ( class_exists( 'WooCommerce' ) ) {
+            if ( is_wc_endpoint_url( 'lost-password' ) ) {
                 return;
             }
         }
@@ -108,6 +115,7 @@ final class PageRedirect
         if (! is_user_logged_in() ) {
 
             if ($current_page_id !== $login_page_id ) {
+                $excluded_page = apply_filters( 'subway_excluded_page', $excluded_page, $current_page_id );
 
                 if (! in_array($current_page_id, $excluded_page, true) ) {
 
