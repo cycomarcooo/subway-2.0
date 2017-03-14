@@ -6,9 +6,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
+ *
  * PHP Version 5.4
- * 
+ *
  * @category Subway\Shortcodes
  * @package  Subway\Shortcodes
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
@@ -31,7 +31,7 @@ if (! defined('ABSPATH') ) {
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     github.com/codehaiku/subway The Plugin Repository
- * @since    1.0  
+ * @since    1.0
  */
 final class Shortcodes
 {
@@ -41,23 +41,23 @@ final class Shortcodes
      *
      * @return void
      */
-    private function __construct() 
+    private function __construct()
     {
-        
+
         add_action('init', array( $this, 'register'));
-        
+
         return $this;
 
     }
 
     /**
      * Instantiate our class.
-     * 
+     *
      * @return mixed The instance of this class.
      */
-    public static function instance() 
+    public static function instance()
     {
-        
+
         static $instance = null;
 
         if (null === $instance ) {
@@ -72,10 +72,10 @@ final class Shortcodes
 
     /**
      * Instantiate our class.
-     * 
+     *
      * @return void
      */
-    public function register() 
+    public function register()
     {
 
         add_shortcode('subway_login', array( $this, 'loginForm' ));
@@ -90,33 +90,46 @@ final class Shortcodes
 
     /**
      * Displays the login form
-     * 
+     *
      * @return void
      */
-    public function loginForm() 
+    public function loginForm( $atts )
     {
-        
-        $atts = array();
+        $atts = shortcode_atts( array(
+            'echo'           => true,
+            'form_id'        => 'loginform',
+            'label_username' => __( 'Username', 'subway' ),
+            'label_password' => __( 'Password', 'subway' ),
+            'label_remember' => __( 'Remember Me', 'subway' ),
+            'label_log_in'   => __( 'Log In', 'subway' ),
+            'id_username'    => 'user_login',
+            'id_password'    => 'user_pass',
+            'id_remember'    => 'rememberme',
+            'id_submit'      => 'wp-submit',
+            'remember'       => true,
+            'value_username' => '',
+            'value_remember' => false,
+            'redirect'       => home_url(),
+        ), $atts );
 
         return $this->renderTemplate($atts, 'login-form.php');
-         
     }
 
     /**
      * Include the specific plugin file if there is no template file.
-     * 
+     *
      * @param mixed  $atts The shortcode attribute.
      * @param string $file The shortcode template file.
-     * 
+     *
      * @return string The html template content.
      */
-    protected function renderTemplate( $atts, $file = '' ) 
+    protected function renderTemplate( $atts, $file = '' )
     {
 
         ob_start();
 
         if (empty($file) ) {
-            
+
             return;
 
         }
@@ -140,7 +153,7 @@ final class Shortcodes
             echo sprintf(
                 esc_html_e(
                     'Subway Error: Unable to find template file in: %1s', 'subway'
-                ), 
+                ),
                 $template
             );
 
@@ -151,34 +164,34 @@ final class Shortcodes
 
     /**
      * The action for our login form.
-     * 
+     *
      * @param string $__content The current filtered contents.
-     * 
+     *
      * @return string            The content of our login form action.
      */
-    public function loginFormAction( $__content ) 
+    public function loginFormAction( $__content )
     {
 
         ob_start();
-        
+
         do_action('login_form');
-        
+
         return $__content . ob_get_clean();
 
     }
 
      /**
      * The action for our 'lost password' link.
-     * 
+     *
      * @param string $content The current filtered contents.
-     * 
+     *
      * @return string          The content of our lost password link.
      */
-    public function lostPasswordLink( $content ) 
+    public function lostPasswordLink( $content )
     {
-        
+
         return $content . $this->renderTemplate(
-            array(), 
+            array(),
             'login-form-lost-password.php'
         );
 
