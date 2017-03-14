@@ -6,9 +6,9 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- * 
+ *
  * PHP Version 5.4
- * 
+ *
  * @category Subway\i18
  * @package  Subway
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
@@ -31,7 +31,7 @@ if (! defined('ABSPATH') ) {
  * @author   Joseph G. <emailnotdisplayed@domain.tld>
  * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @link     github.com/codehaiku/subway The Plugin Repository
- * @since    1.0  
+ * @since    1.0
  */
 final class I18
 {
@@ -41,7 +41,7 @@ final class I18
      *
      * @return void
      */
-    public function __construct() 
+    public function __construct()
     {
 
         add_action('plugins_loaded', array( $this, 'subwayLocalizePlugin' ));
@@ -54,10 +54,10 @@ final class I18
      *
      * @return void
      */
-    public function subwayLocalizePlugin() 
+    public function subwayLocalizePlugin()
     {
 
-        $rel_path = SUBWAY_DIR_PATH . 'languages';
+        $rel_path = 'subway/languages';
 
         load_plugin_textdomain('subway', false, $rel_path);
 
